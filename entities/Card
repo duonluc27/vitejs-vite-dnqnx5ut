@@ -1,0 +1,129 @@
+{
+  "name": "Card",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Card or product name"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "raw_card",
+        "graded_card",
+        "sealed_product"
+      ],
+      "description": "Type of item"
+    },
+    "set_name": {
+      "type": "string",
+      "description": "Pok\u00e9mon set name"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Image of the card/product"
+    },
+    "purchase_price": {
+      "type": "number",
+      "description": "How much you paid for it"
+    },
+    "grading_cost": {
+      "type": "number",
+      "description": "Cost to grade the card"
+    },
+    "grading_company": {
+      "type": "string",
+      "enum": [
+        "PSA",
+        "BGS",
+        "CGC",
+        "SGC",
+        "AGS",
+        "None"
+      ],
+      "default": "None",
+      "description": "Grading company"
+    },
+    "grade": {
+      "type": "string",
+      "description": "Grade received (e.g. PSA 10, BGS 9.5)"
+    },
+    "current_value": {
+      "type": "number",
+      "description": "Current market value"
+    },
+    "min_sell_percentage": {
+      "type": "number",
+      "description": "Lowest % of current value you'd accept to sell"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "holding",
+        "listed",
+        "sold"
+      ],
+      "default": "holding",
+      "description": "Current status"
+    },
+    "sold_price": {
+      "type": "number",
+      "description": "Price it was sold for"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes"
+    },
+    "date_purchased": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of purchase"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "purchase_price"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

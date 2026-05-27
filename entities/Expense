@@ -1,0 +1,81 @@
+{
+  "name": "Expense",
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "string",
+      "description": "What the expense was for"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "shipping",
+        "platform_fee",
+        "travel",
+        "supplies",
+        "grading_fee",
+        "other"
+      ],
+      "default": "other",
+      "description": "Expense category"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Cost in USD"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of expense"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional notes"
+    }
+  },
+  "required": [
+    "description",
+    "amount"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
